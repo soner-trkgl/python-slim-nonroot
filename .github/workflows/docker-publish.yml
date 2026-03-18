@@ -33,4 +33,4 @@ jobs:
           push: true
           # FORMAT: ghcr.io/your-username/your-repo-name:tag
           # IMPORTANT: Must be entirely lowercase!
-          ghcr.io/${{ github.repository_owner }}/python-slim-with-nonroot:1.0.0
+          tags: ghcr.io/${{ github.repository_owner }}/python-slim-with-nonroot:1.0.0
