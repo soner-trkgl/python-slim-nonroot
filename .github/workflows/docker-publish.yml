@@ -33,4 +33,4 @@ jobs:
           push: true
           # FORMAT: ghcr.io/your-username/your-repo-name:tag
           # IMPORTANT: Must be entirely lowercase!
-          tags: ghcr.io/${{ github.repository_owner }}/my-secure-base:latest
+          tags: ghcr.io/${{ github.repository_owner }}/my-secure-base:1.0.0
