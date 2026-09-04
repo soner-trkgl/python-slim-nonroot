@@ -1,11 +1,11 @@
 ARG PYTHON_BASE_IMAGE=python:3.13-slim
-FROM ${PYTHON_BASE_IMAGE}
+  FROM ${PYTHON_BASE_IMAGE}
 
-USER root
+  USER root
 
-# Shared runtime dependencies live in this base image so application images do
-# not need to install OS packages and inherit their Twistlock findings directly.
- RUN set -eux; \
+  # Shared runtime dependencies live in this base image so application images do
+  # not need to install OS packages and inherit their security fixes directly.
+  RUN set -eux; \
       apt-get update -o Acquire::Retries=3; \
       apt-get upgrade --no-install-recommends -y; \
       apt-get install --no-install-recommends -y \
@@ -57,9 +57,10 @@ USER root
       https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; \
       apt-get install --no-install-recommends -y /tmp/google-chrome-stable.deb; \
       chrome_major="$(google-chrome --product-version | cut -d. -f1)"; \
-      curl -fsSL --retry 3 -o /tmp/chrome-versions.json https://googlechromelabs.github.io/chrome-for-testing/latest-versions-per-milestone-with-downloads.json; \
-      driver_version="$(python -c 'import json, sys; data = json.load(open("/tmp/chrome-versions.json"));
-      print(data["milestones"][sys.argv[1]]["version"])' "$chrome_major")"; \
+      curl -fsSL --retry 3 -o /tmp/chrome-versions.json
+      https://googlechromelabs.github.io/chrome-for-testing/latest-versions-per-milestone-with-downloads.json; \
+      driver_version="$(python -c 'import json, sys; print(json.load(open("/tmp/chrome-versions.json"))["milestones"]
+      [sys.argv[1]]["version"])' "$chrome_major")"; \
       curl -fsSL --retry 3 -o /tmp/chromedriver.zip
       "https://storage.googleapis.com/chrome-for-testing-public/${driver_version}/linux64/chromedriver-linux64.zip"; \
       unzip -q /tmp/chromedriver.zip -d /tmp; \
@@ -71,9 +72,9 @@ USER root
       apt-get clean; \
       rm -rf /var/lib/apt/lists/*
 
-ENV CHROME_BIN=/usr/bin/google-chrome \
-    CHROMEDRIVER_PATH=/usr/bin/chromedriver
+  ENV CHROME_BIN=/usr/bin/google-chrome \
+      CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
-RUN useradd --create-home --shell /usr/sbin/nologin seluser
+  RUN useradd --create-home --shell /usr/sbin/nologin seluser
 
-USER seluser
+  USER seluser
