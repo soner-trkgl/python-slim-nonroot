@@ -57,8 +57,7 @@ USER root
       https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; \
       apt-get install --no-install-recommends -y /tmp/google-chrome-stable.deb; \
       chrome_major="$(google-chrome --product-version | cut -d. -f1)"; \
-      curl -fsSL --retry 3 -o /tmp/chrome-versions.json
-      https://googlechromelabs.github.io/chrome-for-testing/latest-versions-per-milestone-with-downloads.json; \
+      curl -fsSL --retry 3 -o /tmp/chrome-versions.json https://googlechromelabs.github.io/chrome-for-testing/latest-versions-per-milestone-with-downloads.json; \
       driver_version="$(python -c 'import json, sys; data = json.load(open("/tmp/chrome-versions.json"));
       print(data["milestones"][sys.argv[1]]["version"])' "$chrome_major")"; \
       curl -fsSL --retry 3 -o /tmp/chromedriver.zip
